@@ -87,25 +87,25 @@ export default {
             });
         },
         signup() {
-                firebase.auth().createUserWithEmailAndPassword(this.user.email, this.user.password1).then( 
-                    user => {
-                        alert('Your accound has been created!');
+            firebase.auth().createUserWithEmailAndPassword(this.user.email, this.user.password1).then( 
+                user => {
+                    alert('Your accound has been created!');
 
-                        /* add user info to database */
-                        var newUser = this.addUserInfo();
+                    /* add user info to database */
+                    var newUser = this.addUserInfo();
 
-                        this.$router.push({ name: 'Hello'});
-                    }, 
-                    error => {
-                        var errorCode = error.code;
-                        var errorMsg = error.message;
-                        if (errorCode == 'auth/weak-password') {
-                            alert('The password is too week');
-                        } else {
-                            alert('Oops.' + errorMsg);
-                        }
+                    this.$router.push({ name: 'Hello'});
+                }, 
+                error => {
+                    var errorCode = error.code;
+                    var errorMsg = error.message;
+                    if (errorCode == 'auth/weak-password') {
+                        alert('The password is too week');
+                    } else {
+                        alert('Oops.' + errorMsg);
                     }
-                );
+                }
+            );
         },
         addUserInfo() {
             var newUser = {

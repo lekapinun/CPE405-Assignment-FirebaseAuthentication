@@ -1,18 +1,45 @@
 <template>
-  <div class="login">
+  <!-- <div class="login">
       <h3>Sign in</h3>
       <input type="text" v-model="user.username" placeholder="Username"><br>
       <input type="password" v-model="user.password" placeholder="Password"><br>
       <button @click="login">Login</button>
       <p>You don't have an account? You can <router-link to="/signup"> create one</router-link><br>
-        Or... You can login with Google or Facebook account </p>
+        Or... You can login with Google, Facebook or another account </p>
       <div id="firebaseui-auth-container"></div>
-      <hr>
+      <hr> -->
       
       <!-- <p>Sign-in with <span @click="loginGoogle">Google</span> or <span @click="loginFacebook">Facebook</span> account.</p>
       <p>Sign-in with Firebase UI <router-link to='/firebaseauth'>click here</router-link></p> -->
 
-  </div>
+  <!-- </div> -->
+    <div class="login">
+        <form @submit.prevent="validateBeforeSubmit">
+            <h3>Sign in</h3>
+
+            <div>
+                <input name="email" v-model="user.email" type="email" placeholder="Email"
+                    v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('user.email') }">
+                <p v-show="errors.has('email')" style="color: red" >{{ errors.first('email') }}</p>
+            </div>
+
+            <div>
+                <input name="password" v-model="user.password1" type="password" placeholder="Password"
+                    v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('user.password1') }">
+                <p v-show="errors.has('password')" style="color: red" >{{ errors.first('password') }}</p>
+            </div>
+            
+            <div>
+                <button style="margin-bottom: 20px">Log in</button> 
+            </div>
+
+            <p>You don't have an account? You can <router-link to="/signup"> create one</router-link><br>
+                Or... You can login with Google, Facebook or another account </p>
+            <div id="firebaseui-auth-container"></div>
+            <hr>
+        </form>
+    </div >
+  
 </template>
 
 <script>
@@ -24,15 +51,22 @@ export default {
     data() {
         return {
             user: {
-                username: '',
+                email: '',
                 password: ''
             }
 
         }
     },
     methods: {
+        validateBeforeSubmit() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    this.login();
+                }
+            });
+        },
         login() {
-            firebase.auth().signInWithEmailAndPassword(this.user.username, this.user.password).then(
+            firebase.auth().signInWithEmailAndPassword(this.user.email, this.user.password).then(
                 user => {
                     alert('User authentication successful');
                     this.$router.push({name: 'Hello'});
@@ -118,7 +152,7 @@ export default {
         signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-            // firebase.auth.EmailAuthProvider.PROVIDER_ID
+            firebase.auth.EmailAuthProvider.PROVIDER_ID
             ]
         };
         
@@ -130,7 +164,7 @@ export default {
 
 <style scoped>
     .login {
-        margin-top: 40px;
+        margin-top: 10px;
     }
     input {
         margin: 10px 0;
@@ -143,7 +177,7 @@ export default {
         cursor: pointer;
     }
     p {
-        margin-top: 40px;
+        margin-top: 20px;
         font-size: 13px;
     }
     p a {
