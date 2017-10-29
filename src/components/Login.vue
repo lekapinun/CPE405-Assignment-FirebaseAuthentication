@@ -5,16 +5,19 @@
       <input type="password" v-model="user.password" placeholder="Password"><br>
       <button @click="login">Login</button>
       <p>You don't have an account? You can <router-link to="/signup"> create one</router-link><br>
-        Or... You can <router-link to="/signup2"> create account here</router-link></p>
+        Or... You can login with Google or Facebook account </p>
+      <div id="firebaseui-auth-container"></div>
       <hr>
-      <p>Sign-in with <span @click="loginGoogle">Google</span> or <span @click="loginFacebook">Facebook</span> account.</p>
-      <p>Sign-in with Firebase UI <router-link to='/firebaseauth'>click here</router-link></p>
+      
+      <!-- <p>Sign-in with <span @click="loginGoogle">Google</span> or <span @click="loginFacebook">Facebook</span> account.</p>
+      <p>Sign-in with Firebase UI <router-link to='/firebaseauth'>click here</router-link></p> -->
 
   </div>
 </template>
 
 <script>
 import firebase from 'firebase';
+import firebaseui from 'firebaseui'
 
 export default {
     name: 'login',
@@ -108,7 +111,20 @@ export default {
                 }
             );        
         }
-    }
+    },
+    mounted() {
+        var uiConfig = {
+        signInSuccessUrl: '/hello',
+        signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+            // firebase.auth.EmailAuthProvider.PROVIDER_ID
+            ]
+        };
+        
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start('#firebaseui-auth-container', uiConfig);
+    },
 }
 </script>
 
@@ -134,5 +150,9 @@ export default {
         text-decoration: underline;
         cursor: pointer;
     }
+
+</style>
+
+<style src="firebaseui/dist/firebaseui.css" />
 
 </style>
