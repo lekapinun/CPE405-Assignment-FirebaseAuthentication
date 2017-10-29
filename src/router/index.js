@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Signup from '@/components/Signup'
 import FirebaseAuth from '@/components/FirebaseAuth'
 import Signup2 from '@/components/SignupValidate'
+import BookMarker from '@/components/BookMarker'
 
 Vue.use(Router)
 
@@ -16,7 +17,7 @@ export default new Router({
       component: HelloWorld,
       meta: {
         requiresAuth: true
-      }
+      },
     },
     {
       path: '/login',
@@ -41,7 +42,12 @@ export default new Router({
       path: '/firebaseauth',
       name: 'Auth',
       component: FirebaseAuth
-    }
+    },
+    {
+      path: '/bookmarker',
+      name: 'BookMarker',
+      component: BookMarker
+    },
   ],
   mode: 'history',
 })

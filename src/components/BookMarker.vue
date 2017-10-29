@@ -3,7 +3,7 @@
 </style>
 
 <template v:onload="fetchData">
-    <div class="container">
+    <div class="BookMarker">
         <div class="header clearfix">
             <h3 class="text-muted">Bookmarker</h3>
         </div>
@@ -37,7 +37,10 @@
 </template>
 
 <script>
+    import firebase from 'firebase';
+
     export default {
+        name: 'BookMarker',
         data() {
             return {
                 book: {
@@ -50,46 +53,54 @@
         },
         methods: {
             submit() {
-                this.$http.post('https://vue-resource-tutorial-8aa47.firebaseio.com/books.json', this.book)
-                .then(response => {         
-                    console.log(response);
-                    this.fetchData();
-                    this.book.siteName = ''
-                    this.book.siteUrl = ''
-                }, error => {               
-                    console.log(error);
-                });
+                // this.$http.post('https://vue-resource-tutorial-8aa47.firebaseio.com/books.json', this.book)
+                // .then(response => {         
+                //     console.log(response);
+                //     this.fetchData();
+                //     this.book.siteName = ''
+                //     this.book.siteUrl = ''
+                // }, error => {               
+                //     console.log(error);
+                // });
             },
             fetchData() {
-                this.$http.get('https://vue-resource-tutorial-8aa47.firebaseio.com/books.json')
-                .then(response => {
-                    return response.json();           
+                firebase.auth().onAuthStateChanged(user => {
+                    if (user) {
+                        // console.log(user)
+                    } 
+                },error => {
+                    console.log(error)
                 })
-                .then(data => {        
-                    // console.log(data)             
-                    const resultArray = [];
-                    for (let key in data) {
-                        var temp = new Object()
-                        temp['key'] = key
-                        temp['siteName'] = data[key].siteName
-                        temp['siteUrl'] = data[key].siteUrl
-                        resultArray.push(temp)
-                    }
-                    this.books = resultArray;        
-                });     
+                
+                // this.$http.get('https://vue-resource-tutorial-8aa47.firebaseio.com/books.json')
+                // .then(response => {
+                //     return response.json();           
+                // })
+                // .then(data => {        
+                //     // console.log(data)             
+                //     const resultArray = [];
+                //     for (let key in data) {
+                //         var temp = new Object()
+                //         temp['key'] = key
+                //         temp['siteName'] = data[key].siteName
+                //         temp['siteUrl'] = data[key].siteUrl
+                //         resultArray.push(temp)
+                //     }
+                //     this.books = resultArray;        
+                // });     
             },
             deleteData(key){
-                this.$http.delete('https://vue-resource-tutorial-8aa47.firebaseio.com/books/' + key + '.json')
-                .then(response => {
-                    this.fetchData();
-                    console.log(response);           
-                },error => {               
-                    console.log(error);
-                })  
+                // this.$http.delete('https://vue-resource-tutorial-8aa47.firebaseio.com/books/' + key + '.json')
+                // .then(response => {
+                //     this.fetchData();
+                //     console.log(response);           
+                // },error => {               
+                //     console.log(error);
+                // })  
             }
         },
-        created() {
-            this.fetchData();
-        }
+        // created() {
+        //     this.fetchData();
+        // }
     }
 </script>
