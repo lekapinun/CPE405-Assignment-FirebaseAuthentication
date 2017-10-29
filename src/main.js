@@ -5,8 +5,10 @@ import App from './App'
 import router from './router'
 import firebase from 'firebase'
 import { firebaseApp, db } from '@/firebaseConfig'
+import VueRouter from 'vue-router';
 
 Vue.config.productionTip = false
+Vue.use(VueRouter);
 
 router.beforeEach( (to, from, next) => {
   var currentUser = firebase.auth().currentUser;

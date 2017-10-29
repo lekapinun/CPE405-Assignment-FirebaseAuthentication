@@ -1,22 +1,7 @@
 <template>
-  <!-- <div class="login">
-      <h3>Sign in</h3>
-      <input type="text" v-model="user.username" placeholder="Username"><br>
-      <input type="password" v-model="user.password" placeholder="Password"><br>
-      <button @click="login">Login</button>
-      <p>You don't have an account? You can <router-link to="/signup"> create one</router-link><br>
-        Or... You can login with Google, Facebook or another account </p>
-      <div id="firebaseui-auth-container"></div>
-      <hr> -->
-      
-      <!-- <p>Sign-in with <span @click="loginGoogle">Google</span> or <span @click="loginFacebook">Facebook</span> account.</p>
-      <p>Sign-in with Firebase UI <router-link to='/firebaseauth'>click here</router-link></p> -->
-
-  <!-- </div> -->
     <div class="login">
         <form @submit.prevent="validateBeforeSubmit">
             <h3>Sign in</h3>
-
             <div>
                 <input name="email" v-model="user.email" type="email" placeholder="Email"
                     v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('user.email') }">
@@ -54,7 +39,6 @@ export default {
                 email: '',
                 password: ''
             }
-
         }
     },
     methods: {
@@ -164,7 +148,7 @@ export default {
 
 <style scoped>
     .login {
-        margin-top: 10px;
+        margin-top: 40px;
     }
     input {
         margin: 10px 0;
