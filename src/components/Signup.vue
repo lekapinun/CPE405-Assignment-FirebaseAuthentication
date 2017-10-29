@@ -34,15 +34,15 @@
             </div>
 
             <div>
-                <input name="url" v-model="user.url" type="text" placeholder="Website"
-                    v-validate="'required|url'" :class="{'input': true, 'is-danger': errors.has('user.url') }">
+                <input name="url" v-model="user.url" type="text" placeholder="Facebook"
+                    v-validate="'required|regex:^(facebook)$'" :class="{'input': true, 'is-danger': errors.has('user.url') }">
                 <p v-show="errors.has('url')" style="color: red" >{{ errors.first('url') }}</p>
             </div>
 
             <div>
                 <input name="phone" v-model="user.phone" type="text" placeholder="Phone"
-                    v-validate="'required|decimal:0'" :class="{'input': true, 'is-danger': errors.has('user.phone') }">
-                <p v-show="errors.has('phone')" style="color: red" >The phone field must be a valid phone</p>
+                    v-validate="'required|regex:^([0-9]+)$'" :class="{'input': true, 'is-danger': errors.has('user.phone') }">
+                <p v-show="errors.has('phone')" style="color: red" >{{ errors.first('phone') }}</p>
             </div>
 
             <div>
