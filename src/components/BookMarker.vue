@@ -13,7 +13,7 @@
             <form @submit.prevent="validateBeforeSubmit">
                 <div class="form-group">
                     <label>Site Name</label>
-                    <input name="name" v-model="book.siteName" type="test" placeholder="Website Name" class="form-control"
+                    <input name="name" v-model="book.siteName" type="text" placeholder="Website Name" class="form-control"
                         v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('book.siteName') }">
                     <p v-show="errors.has('name')" style="color: red" >{{ errors.first('name') }}</p>
 
