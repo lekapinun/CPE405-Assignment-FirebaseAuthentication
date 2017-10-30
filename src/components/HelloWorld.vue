@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <app-header></app-header>
     <h1>{{ msg }}</h1>
     <h2>User information:</h2>
     <div v-if="user.photoURL">
@@ -19,7 +18,6 @@
 <script>
 import firebase from 'firebase';
 import { db } from '@/firebaseConfig'
-import Header from './Header'
 
 var md5 = require('md5');
 
@@ -69,9 +67,6 @@ export default {
 
     }
   },
-  components: {
-    appHeader: Header,
-  }
 }
 </script>
 

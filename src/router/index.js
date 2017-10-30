@@ -6,6 +6,8 @@ import Signup from '@/components/Signup'
 import FirebaseAuth from '@/components/FirebaseAuth'
 import Signup2 from '@/components/SignupValidate'
 import BookMarker from '@/components/BookMarker'
+import User from '@/components/User.vue';
+import About from '@/components/About.vue';
 
 Vue.use(Router)
 
@@ -13,11 +15,33 @@ export default new Router({
   routes: [
     {
       path: '/hello',
-      name: 'Hello',
-      component: HelloWorld,
-      meta: {
-        requiresAuth: true
-      },
+      // name: 'Hello',
+      component: User,
+      children: [ 
+        {
+          path: '',
+          component: HelloWorld,
+          meta: {
+            requiresAuth: true
+          },
+        },
+        {
+          path: '/bookmarker',
+          component: BookMarker,
+          name: 'BookMarker',
+          meta: {
+            requiresAuth: true
+          },
+        } ,
+        {
+          path: '/about',
+          component: About,
+          name: 'About',
+          meta: {
+            requiresAuth: true
+          },
+        } 
+      ]
     },
     {
       path: '/login',
@@ -43,11 +67,11 @@ export default new Router({
       name: 'Auth',
       component: FirebaseAuth
     },
-    {
-      path: '/bookmarker',
-      name: 'BookMarker',
-      component: BookMarker
-    },
+    // {
+    //   path: '/bookmarker',
+    //   name: 'BookMarker',
+    //   component: BookMarker
+    // },
   ],
   mode: 'history',
 })

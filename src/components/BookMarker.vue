@@ -3,26 +3,30 @@
 </style>
 
 <template v:onload="fetchData">
-    <div class="BookMarker">
+    <div class="container">
         <div class="header clearfix">
             <h3 class="text-muted">Bookmarker</h3>
         </div>
 
         <div class="jumbotron">
             <h2>Bookmark Your Favorite Sites</h2>
-            <form>
-            <div class="form-group">
-                <label>Site Name</label>
-                <input type="text" class="form-control" placeholder="Website Name" v-model="book.siteName">
-            </div>
-            <div class="form-group">
-                <label>Site URL</label>
-                <input type="text" class="form-control" placeholder="Website URL" v-model="book.siteUrl">
-            </div>
-            <div class="btn btn-primary" @click="submit">Submit</div>
+            <form @submit.prevent="validateBeforeSubmit">
+                <div class="form-group">
+                    <label>Site Name</label>
+                    <input name="name" v-model="book.siteName" type="test" placeholder="Website Name" class="form-control"
+                        v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('book.siteName') }">
+                    <p v-show="errors.has('name')" style="color: red" >{{ errors.first('name') }}</p>
+
+                </div>
+                <div class="form-group">
+                    <label>Site URL</label>
+                    <input name="url" v-model="book.siteUrl" type="url" placeholder="Website URL" class="form-control"
+                        v-validate="'required|url'" :class="{'input': true, 'is-danger': errors.has('book.siteUrl') }">
+                    <p v-show="errors.has('url')" style="color: red" >{{ errors.first('url') }}</p>
+                </div>
+                <button class="btn btn-primary">Submit</button>
             </form>
         </div>
-
         <div class="well" v-for="b in books" :key="b.key">
             <h3> {{ b.siteName}}
                 <a class="btn btn-default" target="_blank" v-bind:href="b.siteUrl">Visit</a>
@@ -44,63 +48,76 @@
         data() {
             return {
                 book: {
-                    // key: '',
                     siteName: '',
                     siteUrl: ''
                 },
-                books: []
+                books: [],
+                user: '',
             }
         },
         methods: {
+            validateBeforeSubmit() {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+                        this.submit();
+                    }
+                });
+            },
             submit() {
-                // this.$http.post('https://vue-resource-tutorial-8aa47.firebaseio.com/books.json', this.book)
-                // .then(response => {         
-                //     console.log(response);
-                //     this.fetchData();
-                //     this.book.siteName = ''
-                //     this.book.siteUrl = ''
-                // }, error => {               
-                //     console.log(error);
-                // });
+                this.$http.post('https://vue-resource-tutorial-8aa47.firebaseio.com/users/' + this.user.uid + '/books.json', this.book)
+                .then(response => {         
+                    console.log(response);
+                    this.fetchData();
+                    this.book.siteName = ''
+                    this.book.siteUrl = ''
+                }, error => {               
+                    console.log(error);
+                });
             },
             fetchData() {
-                firebase.auth().onAuthStateChanged(user => {
-                    if (user) {
-                        // console.log(user)
-                    } 
-                },error => {
-                    console.log(error)
+                this.$http.get('https://vue-resource-tutorial-8aa47.firebaseio.com/users/' + this.user.uid + '/books.json')
+                .then(response => {
+                    return response.json();           
                 })
-                
-                // this.$http.get('https://vue-resource-tutorial-8aa47.firebaseio.com/books.json')
-                // .then(response => {
-                //     return response.json();           
-                // })
-                // .then(data => {        
-                //     // console.log(data)             
-                //     const resultArray = [];
-                //     for (let key in data) {
-                //         var temp = new Object()
-                //         temp['key'] = key
-                //         temp['siteName'] = data[key].siteName
-                //         temp['siteUrl'] = data[key].siteUrl
-                //         resultArray.push(temp)
-                //     }
-                //     this.books = resultArray;        
-                // });     
+                .then(data => {        
+                    // console.log(data)             
+                    const resultArray = [];
+                    for (let key in data) {
+                        var temp = new Object()
+                        temp['key'] = key
+                        temp['siteName'] = data[key].siteName
+                        temp['siteUrl'] = data[key].siteUrl
+                        resultArray.push(temp)
+                    }
+                    this.books = resultArray;        
+                });     
             },
             deleteData(key){
-                // this.$http.delete('https://vue-resource-tutorial-8aa47.firebaseio.com/books/' + key + '.json')
-                // .then(response => {
-                //     this.fetchData();
-                //     console.log(response);           
-                // },error => {               
-                //     console.log(error);
-                // })  
+                this.$http.delete('https://vue-resource-tutorial-8aa47.firebaseio.com/users/' + this.user.uid + '/books/' + key + '.json')
+                .then(response => {
+                    this.fetchData();
+                    console.log(response);           
+                },error => {               
+                    console.log(error);
+                })  
             }
         },
-        // created() {
-        //     this.fetchData();
-        // }
+        created() {
+            var user = firebase.auth().currentUser
+            this.user = user
+            this.fetchData();
+        }
     }
 </script>
+
+<style scoped>
+    p {
+        margin-top: 20px;
+        font-size: 13px;
+    }
+    p a {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+</style>
