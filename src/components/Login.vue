@@ -4,23 +4,20 @@
             <h3>Sign in</h3>
             <div>
                 <input name="email" v-model="user.email" type="email" placeholder="Email"
-                    v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('user.email') }">
+                    v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('user.email') }">
                 <p v-show="errors.has('email')" style="color: red" >{{ errors.first('email') }}</p>
             </div>
 
             <div>
-                <input name="password" v-model="user.password1" type="password" placeholder="Password"
-                    v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('user.password1') }">
+                <input name="password" v-model="user.password" type="password" placeholder="Password"
+                    v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('user.password') }">
                 <p v-show="errors.has('password')" style="color: red" >{{ errors.first('password') }}</p>
             </div>
             
             <div>
                 <button style="margin-bottom: 20px">Log in</button> 
             </div>
-
-            <p>You don't have an account? You can <router-link to="/signup"> create one</router-link><br>
-                Or... You can login with Google, Facebook or another account </p>
-            <div id="firebaseui-auth-container"></div>
+            <p>You don't have an account? You can <router-link to="/signup"> create one</router-link><br></p>
             <hr>
         </form>
     </div >
@@ -131,17 +128,17 @@ export default {
         }
     },
     mounted() {
-        var uiConfig = {
-        signInSuccessUrl: '/hello',
-        signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-            firebase.auth.EmailAuthProvider.PROVIDER_ID
-            ]
-        };
+        // var uiConfig = {
+        // signInSuccessUrl: '/hello',
+        // signInOptions: [
+        //     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        //     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        //     firebase.auth.EmailAuthProvider.PROVIDER_ID
+        //     ]
+        // };
         
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
-        ui.start('#firebaseui-auth-container', uiConfig);
+        // var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        // ui.start('#firebaseui-auth-container', uiConfig);
     },
 }
 </script>

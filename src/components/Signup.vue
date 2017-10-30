@@ -35,7 +35,7 @@
 
             <div>
                 <input name="url" v-model="user.url" type="text" placeholder="Facebook"
-                    v-validate="'required|regex:^(facebook)$'" :class="{'input': true, 'is-danger': errors.has('user.url') }">
+                    v-validate="'required|url|regex:.*(facebook).*'" :class="{'input': true, 'is-danger': errors.has('user.url') }">
                 <p v-show="errors.has('url')" style="color: red" >{{ errors.first('url') }}</p>
             </div>
 

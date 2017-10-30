@@ -21,6 +21,7 @@ export default new Router({
         {
           path: '',
           component: HelloWorld,
+          name: 'Hello',
           meta: {
             requiresAuth: true
           },
