@@ -28,8 +28,8 @@
             </div>
 
             <div>
-                <input name="birthdate" v-model="user.birthdate" type="text" placeholder="Birth day (DD/MM/YYYY)"
-                    v-validate="'required|date_format:DD/MM/YYYY|date_between:' + min + ',' + max " :class="{'input': true, 'is-danger': errors.has('user.birthdate') }">
+                <input name="birthdate" v-model="user.birthdate" type="date" placeholder="Birth day (DD/MM/YYYY)"
+                    v-validate="'required|date_format:DD/MM/YYYY'" :class="{'input': true, 'is-danger': errors.has('user.birthdate') }">
                 <p v-show="errors.has('birthdate')" style="color: red" >{{ errors.first('birthdate') }}</p>
             </div>
 
@@ -59,7 +59,6 @@ import { db } from '@/firebaseConfig'
 
 var md5 = require('md5');
 let usersRef = db.ref('users');
-let date = new Date() 
 
 export default {
   name: 'signUp',
@@ -73,9 +72,7 @@ export default {
               url: '',
               phone: '',
               birthdate: ''
-          },
-          max : date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),
-          min : date.getDate() + '/' + (date.getMonth() + 1) + '/' + (date.getFullYear() - 100)
+          }
       }
   },
   methods: {
