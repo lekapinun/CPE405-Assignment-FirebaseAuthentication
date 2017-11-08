@@ -28,7 +28,7 @@
             </div>
 
             <div>
-                <input name="birthdate" v-model="user.birthdate" type="date" placeholder="Birth day (DD/MM/YYYY)"
+                <input name="birthdate" v-model="user.birthdate" type="text" placeholder="Birth day (DD/MM/YYYY)"
                     v-validate="'required|date_format:DD/MM/YYYY'" :class="{'input': true, 'is-danger': errors.has('user.birthdate') }">
                 <p v-show="errors.has('birthdate')" style="color: red" >{{ errors.first('birthdate') }}</p>
             </div>
